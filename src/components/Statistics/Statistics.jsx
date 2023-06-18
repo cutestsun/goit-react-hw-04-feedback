@@ -1,11 +1,34 @@
 import PropTypes from 'prop-types';
 
-export const Statistics = ({ data, total, positivePercentage }) => {
+export const Statistics = ({
+  goodStat,
+  neutralStat,
+  badStat,
+  options,
+  total,
+  positivePercentage,
+}) => {
+  const handleChooseOptValue = opt => {
+    switch (opt) {
+      case 'good':
+        return goodStat;
+      case 'neutral':
+        return neutralStat;
+      case 'bad':
+        return badStat;
+      default:
+        return;
+    }
+  };
+
   return (
     <>
-      {Object.entries(data).map(item => (
-        <p key={item[0]}>{item.join(': ')}</p>
+      {options.map(opt => (
+        <p key={opt}>
+          {opt}:{handleChooseOptValue(opt)}
+        </p>
       ))}
+
       <p>Total: {total}</p>
       <p>Positive feedback: {positivePercentage}%</p>
     </>
@@ -13,11 +36,10 @@ export const Statistics = ({ data, total, positivePercentage }) => {
 };
 
 Statistics.propTypes = {
-  data: PropTypes.shape({
-    good: PropTypes.number.isRequired,
-    neutral: PropTypes.number.isRequired,
-    bad: PropTypes.number.isRequired,
-  }),
+  goodStat: PropTypes.number.isRequired,
+  neutralStat: PropTypes.number.isRequired,
+  badStat: PropTypes.number.isRequired,
+  options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   total: PropTypes.number.isRequired,
   positivePercentage: PropTypes.number.isRequired,
 };
